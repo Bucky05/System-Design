@@ -1,0 +1,9 @@
+{
+  "name": "ruleenginenode",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/App.js",
+  "scripts": {
+    "start": "node src/App.js"
+  }
+}
