@@ -1,4 +1,4 @@
-package DesignPattern.StrategyPattern;
+package StratergyPattern;
 
 public abstract class CreditCard {
     private String cardNumber;

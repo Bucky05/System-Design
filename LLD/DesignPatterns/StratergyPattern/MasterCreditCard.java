@@ -1,4 +1,4 @@
-package DesignPattern.StrategyPattern;
+package StratergyPattern;
 
 public class MasterCreditCard extends CreditCard implements UPICompatibleCreditCard {
     @Override
