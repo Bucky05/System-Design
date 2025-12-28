@@ -21,7 +21,7 @@ public class Builder {
     public Builder travelerName(String name) {
         if (name == null || name == "") {
             String error = "\nTraveler name " + nonEmtpyError;
-            throw new Error(error);
+            throw new IllegalArgumentException(error);
         }
         this.travelerName = name;
         return this;
@@ -30,7 +30,7 @@ public class Builder {
     public Builder startDate(String date) {
         if (date == null) {
             String error = "\nStart date " + nonEmtpyError;
-            throw new Error(error);
+            throw new IllegalArgumentException(error);
         }
         this.startDate = LocalDate.parse(date);
         if (endDate != null) {
@@ -43,7 +43,7 @@ public class Builder {
     public Builder endDate(String date) {
         if (date == null) {
             String error = "\nStart date " + nonEmtpyError;
-            throw new Error(error);
+            throw new IllegalArgumentException(error);
         }
         this.endDate = LocalDate.parse(date);
         if (startDate != null) {
@@ -84,7 +84,7 @@ public class Builder {
     }
     public Itinerary build() {
         if (travelerName == null || startDate == null || endDate == null || origin == null || destination == null) {
-            throw new Error("\nOne of the required field is missing");
+            throw new IllegalArgumentException("\nOne of the required field is missing");
         }
         checkSegmentList();
         return new Itinerary(this);
@@ -136,24 +136,24 @@ public class Builder {
 
         for (Segment segment : segments) {
             if (!prevLocation.equals(segment.getFrom())) {
-                throw new Error("\nLocation mismatched");
+                throw new IllegalArgumentException("\nLocation mismatched");
             }
             prevLocation = segment.getTo();
 
             if (segment.getDepartAt().isBefore(prevTime)) {
-                throw new Error("\nInconsistency in time");
+                throw new IllegalArgumentException("\nInconsistency in time");
             }
 
             prevTime = segment.getArriveAt();
         }
 
         if (!prevLocation.equals(destination)) {
-            throw new Error("\nLocation mismatched");
+            throw new IllegalArgumentException("\nLocation mismatched");
         }
 
         LocalDateTime arriveTime = LocalDateTime.parse(endDate.toString() + "T12:59:59");
         if (arriveTime.isBefore(prevTime)) {
-            throw new Error("\nInconsistency in time");
+            throw new IllegalArgumentException("\nInconsistency in time");
         }
 
     }
