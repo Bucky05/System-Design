@@ -1,3 +1,4 @@
+import enums.Strategy;
 import factories.VehicleFacotry;
 import models.Vehicle;
 import services.ParkingService;
@@ -11,13 +12,13 @@ public class Main {
         ParkingService service = new ParkingService();
 
 
-        Ticket ticket1 = service.bookSlot(1234,2);
-        Ticket ticket2 = service.bookSlot(2321,3);
-        Ticket ticket3 = service.bookSlot(4223,2);
-        Ticket ticket4 = service.bookSlot(3333,2);
-        Ticket ticket6 = service.bookSlot(3333,2);
+        Ticket ticket1 = service.bookSlot(1234,2, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
+        Ticket ticket2 = service.bookSlot(2321,3, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
+        Ticket ticket3 = service.bookSlot(4223,2, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
+        Ticket ticket4 = service.bookSlot(3333,2, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
+        Ticket ticket6 = service.bookSlot(3333,2, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
         service.freeSlot(ticket1);
-        Ticket ticket5 = service.bookSlot(3333,2);
+        Ticket ticket5 = service.bookSlot(3333,2, Strategy.NEAREST_SLOT_ALLOCATION_STRATEGY);
         service.freeSlot(ticket1);
         service.freeSlot(ticket2);
     }
