@@ -1,13 +1,16 @@
+import enums.CardType;
 import models.ATM;
-import state.ReadyForTransactionState;
-import state.State;
+import models.VisaDebitCard;
+import models.Card;
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         ATM atm = new ATM("123");
-        State state = new ReadyForTransactionState(atm);
+        Card card = new VisaDebitCard(12345, 1234, "Anirudh", CardType.DEBIT,"SBI");
 
-        //state.ejectCard();
-        state.initTransaction();
+        atm.initTransaction(card);
+        atm.readCardDetailsAndPin(1234);
+        atm.readCashWithdrawlDetails(100);
+        atm.dispenseCash(100);
 
     }
 }

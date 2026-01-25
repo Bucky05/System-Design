@@ -6,23 +6,26 @@ import models.ATM;
 public class EjectingCardState implements State{
 
     private final ATM atm;
-
-    public EjectingCardState(ATM atm) {
+    private final Card card;
+    private final int transactionID;
+    public EjectingCardState(ATM atm, Card card, int transactionID) {
         this.atm = atm;
+        this.card = card;
+        this.transactionID = transactionID;
     }
     @Override
-    public int initTransaction() {
+    public int initTransaction(Card card) {
         throw new IllegalStateException("Cannot init transaction while ejecting card");
         
     }
 
     @Override
-    public boolean readCardDetailsAndPin(Card card, int pin) {
+    public boolean readCardDetailsAndPin( int pin) {
          throw new IllegalStateException("Cannot read card details and pin while ejecting card");
     }
 
     @Override
-    public int dispenseCash(Card card, int amount, int transactionId) {
+    public int dispenseCash( int amount) {
          throw new IllegalStateException("Cannot dispense cash while ejecting card");
     }
 
@@ -33,12 +36,12 @@ public class EjectingCardState implements State{
     }
 
     @Override
-    public boolean readCashWithdrawlDetails(Card card, int transactionId, int amount) {
+    public boolean readCashWithdrawlDetails(  int amount) {
          throw new IllegalStateException("Cannot read cash withdrwal details while ejecting card");
     }
 
     @Override
-    public boolean cancelTransaction(Card card) {
+    public boolean cancelTransaction() {
          throw new IllegalStateException("Cannot cancel transaction while ejecting card");
     }
 

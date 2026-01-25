@@ -12,22 +12,26 @@ public class DispensingCashState implements State{
 
     private final ATM atm;
     private final CashDispenseService cashDispenseService;
-    public DispensingCashState(ATM atm) {
+    private final Card card;
+    private final int transactionId;
+    public DispensingCashState(ATM atm,Card card,int transactionId) {
         this.atm = atm;
         this.cashDispenseService = new CashDispenseServiceImpl();
+        this.card = card;
+        this.transactionId = transactionId;
     }
     @Override
-    public int initTransaction() {
+    public int initTransaction(Card card) {
         throw new IllegalStateException("Cannot init transaction while dispensing cash");
     }
 
     @Override
-    public boolean readCardDetailsAndPin(Card card, int pin) {
+    public boolean readCardDetailsAndPin( int pin) {
         throw new IllegalStateException("Cannot read card details and pin while dispensing cash");
     }
 
     @Override
-    public int dispenseCash(Card card,int amount, int transactionId) {
+    public int dispenseCash(int amount) {
         CardManagerService cardManagerService = CardManagerFactory.getCardManagerService(card.getCardType());
 
         boolean isTransactionValid = cardManagerService.doTransaction(card,amount,transactionId);
@@ -37,7 +41,7 @@ public class DispensingCashState implements State{
             System.out.println("Something went wrong");
             
         }
-        atm.changeState(new EjectingCardState(atm));
+        atm.changeState(new EjectingCardState(atm,card,transactionId));
         return amount;
     }
 
@@ -47,12 +51,12 @@ public class DispensingCashState implements State{
     }
 
     @Override
-    public boolean readCashWithdrawlDetails(Card card, int transactionId, int amount) {
+    public boolean readCashWithdrawlDetails( int amount) {
         throw new IllegalStateException("Cannot read cash withdraw details  while dispensing cash");
     }
 
     @Override
-    public boolean cancelTransaction(Card card) {
+    public boolean cancelTransaction() {
         throw new IllegalStateException("Cannot cancel transaction while dispensing cash");
     }
 

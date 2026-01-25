@@ -6,7 +6,7 @@ public class DebitCardManagerService implements CardManagerService {
     @Override
     public boolean validateCard(Card card, int pin) {
         //ideally make it connect to apis
-        return true;
+        return card.getPin() == pin;
     }
 
     @Override
