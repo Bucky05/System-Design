@@ -9,7 +9,7 @@ public class Main {
 
         ExpenseTrackerService expenseTrackerService = new ExpenseTrackerService();
 
-        User user1 = expenseTrackerService.addUser("Anirudh","abc@gmail.com");
+        User user1 = expenseTrackerService.addUser("Janak","abc@gmail.com");
         User user2 = expenseTrackerService.addUser("Ram","ram@gl.com");
         expenseTrackerService.addExpense(100,List.of(user1),user2, ExpenseType.FOOD);
         expenseTrackerService.balanceOfUser(user1);
