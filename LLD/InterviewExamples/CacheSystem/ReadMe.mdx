@@ -1,0 +1,75 @@
+# Cache System with Multiple Eviction Policies
+
+## Problem Statement
+
+Design and implement a cache system that supports **multiple eviction policies.**
+Your cache should be able to store key-value pairs and dynamically support eviction policies like:
+- Least Recently Used (LRU)
+- Least Frequently Used (LFU)
+- FIFO
+
+Additionally, implement a flexible structure that allows adding new eviction policies easily.
+
+## Requirements:
+
+1. Implement a cache with configurable eviction policies (LRU,LFU).
+2. Support standard cache operations:
+    - put(key, value): Inserts or updates a key-value pair.
+    - get(key) : Retrieves the value of a given key (or returns -1 if not found).a
+
+3. Implement a mechanism to switch eviction polices dynamically.
+4. Ensure efficient time complexity (preferably O(1)) for get and put operations.
+5. Provide unit tests demonstrating the correctness of your implementation.
+6. The system should be easily extendable to support additional eviction policies in the future.
+
+## Example cases:
+
+## Example 1: Using LRU Policy
+
+Cache Size: 2
+
+Operations:
+
+put(1,'A')
+put(2,'B')
+get(1) -> 'A'
+put(3,'C') # Evicts 2
+get(2) -> -1
+
+
+## Example 2: Using LFU
+
+Cache size: 2
+
+Operations:
+
+put(1,'A')
+put(2,'B')
+get(1) -> 'A'
+put(3,'C') # Evicts 2
+get(2) -> -1
+
+
+## Additional Features (Optional Enhancements):
+
+1. Persistent Storage Support
+    - Option to store cached data on disk (e.g. using SQLite, LevelDB, or RockDB).
+    - Upon restart, cache should load existing data from storage.
+
+2. Time-to-live (TTL) for cache entries
+    - Allow items to expire automatically after a set TTL (e.g. 5 min).
+    - Implement background cleanup for expired keys.
+
+3. Cache persistence via write-through & write-back
+    - Write-through: Every update to cache, should also update persistent storage.
+    - Write-back: Cache writes updates in batches asynchronously.
+
+4. Configurable Cache size
+    - Allow users to set cache size dynamically at runtime.
+    - Implement a policy to prevent cache from growing uncontrollably
+
+
+## Submission Guidelines:
+- Code should be clean and well documented.
+- Implement proper error handling.
+- Provide test cases demonstrating correctness.
