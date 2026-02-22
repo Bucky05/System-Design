@@ -16,5 +16,5 @@ public class Movie extends BaseModel{
     private String poster;
 
     @OneToMany(mappedBy = "movie")
-    private List<Show> showList;
+    private List<Show> showList; // adding this here will perform join when fetching movies
 }

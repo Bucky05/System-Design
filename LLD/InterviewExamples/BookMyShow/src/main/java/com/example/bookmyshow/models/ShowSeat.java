@@ -21,4 +21,7 @@ public class ShowSeat extends BaseModel{
     @Enumerated(EnumType.ORDINAL)
     private ShowSeatStatus status;
 
+    @ManyToOne
+    private Ticket ticket;
+
 }
