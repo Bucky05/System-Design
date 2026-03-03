@@ -20,9 +20,9 @@ public class Auditorium extends BaseModel{
     @ManyToOne
     private Theatre theatre;
 
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium") // it shows auditorium will be foreign key and thus will not create column here.
     private List<Seat> seatList;
 
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium") // if mapped by is is not included it will not create a foreign key instead it will create a join table
     private List<Show> showList;
 }
