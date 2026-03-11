@@ -1,0 +1,20 @@
+package com.example.stockexchange.data;
+
+import com.example.stockexchange.models.Order;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IOrderBook {
+
+    void addOrder(Order order);
+
+    void removeOrder(String orderId);
+
+    void updateOrder(Order updatedOrder);
+
+    List<Order> getOrders(String stockSymbol);
+
+    Optional<Order> getOrderById(String orderId);
+
+}
