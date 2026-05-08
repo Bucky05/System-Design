@@ -34,7 +34,7 @@ public class FIFOMatchingStrategy implements OrderMatchingStrategy {
                 .filter(order -> {
                     return (
                             (order.getOrderType() == OrderType.SELL) &&
-                                    order.getStockId().equals(buyOrder.getStockId()) &&
+                                    order.getStockSymbol().equals(buyOrder.getStockSymbol()) &&
                                     (order.getPrice() <= buyOrder.getPrice()) &&
                                     (order.getOrderStatus() == OrderStatus.ACCEPTED)
                     );
@@ -86,7 +86,7 @@ public class FIFOMatchingStrategy implements OrderMatchingStrategy {
                 .filter(order -> {
                     return (
                             (order.getOrderType() == OrderType.BUY) &&
-                                    order.getStockId().equals(sellOrder.getStockId()) &&
+                                    order.getStockSymbol().equals(sellOrder.getStockSymbol()) &&
                                     (order.getPrice() >= sellOrder.getPrice()) &&
                                     (order.getOrderStatus() == OrderStatus.ACCEPTED)
                     );

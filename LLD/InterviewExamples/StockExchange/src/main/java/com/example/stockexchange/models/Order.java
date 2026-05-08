@@ -24,8 +24,8 @@ public class Order {
     @NotNull(message = "Order type is required")
     private OrderType orderType;
 
-    @NotNull(message = "Stock id is required")
-    private String stockId;
+    @NotNull(message = "Stock symbol is required")
+    private String stockSymbol;
 
     @NotNull(message = "Stock quantity is required")
     private int quantity;

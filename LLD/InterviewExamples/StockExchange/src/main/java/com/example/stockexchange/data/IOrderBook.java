@@ -9,12 +9,10 @@ public interface IOrderBook {
 
     void addOrder(Order order);
 
-    void removeOrder(String orderId);
+    void removeOrder(String orderId, String stockSymbol);
 
-    void updateOrder(Order updatedOrder);
+    boolean updateOrder(Order updatedOrder);
 
-    List<Order> getOrders(String stockSymbol);
-
-    Optional<Order> getOrderById(String orderId);
+    Optional<Order> getOrderBySymbol(String symbol);
 
 }
