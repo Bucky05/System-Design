@@ -20,13 +20,17 @@ public class FIFOMatchingStrategy implements OrderMatchingStrategy {
 
     @Override
     public List<Trade> matchOrders(Order newOrder, List<Order> existingOrderList) {
-        return List.of();
+        if(newOrder.getOrderType() == OrderType.BUY) {
+            return matchBuyOrder(newOrder,existingOrderList);
+        } else {
+            return matchSellOrder(newOrder,existingOrderList);
+        }
     }
 
     private List<Trade> matchBuyOrder(Order buyOrder, List<Order> existingOrderList) {
         List<Trade> trades = new ArrayList<>();
 
-        List<Order> matchingOrder = existingOrderList.stream()
+        List<Order> matchingSellOrders = existingOrderList.stream()
                 .filter(order -> {
                     return (
                             (order.getOrderType() == OrderType.SELL) &&
@@ -48,7 +52,7 @@ public class FIFOMatchingStrategy implements OrderMatchingStrategy {
 
         int remainingQuantity = buyOrder.getRemainingQuantity();
 
-        for(Order order : matchingOrder) {
+        for(Order order : matchingSellOrders) {
             if(remainingQuantity <= 0) break;
 
             int tradeQuantity = Math.min(remainingQuantity,order.getRemainingQuantity());
