@@ -27,7 +27,7 @@ public class OrderBook implements IOrderBook {
         String stockSymbol = order.getStockSymbol();
         ReadWriteLock lock = getOrCreateLock(stockSymbol);
 
-        lock.writeLock().lock();
+        lock.writeLock().lock(); `
 
         try {
             orderBook.computeIfAbsent(stockSymbol,k -> new ArrayList<>()).add(order);
