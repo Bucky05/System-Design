@@ -15,4 +15,8 @@ public interface IOrderBook {
 
     Optional<Order> getOrderBySymbol(String symbol);
 
+    List<Order> getOrders(String symbol);
+
+    Optional<Order> getOrderById(String id);
+
 }

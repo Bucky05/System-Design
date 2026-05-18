@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -27,7 +28,7 @@ public class OrderBook implements IOrderBook {
         String stockSymbol = order.getStockSymbol();
         ReadWriteLock lock = getOrCreateLock(stockSymbol);
 
-        lock.writeLock().lock(); `
+        lock.writeLock().lock();
 
         try {
             orderBook.computeIfAbsent(stockSymbol,k -> new ArrayList<>()).add(order);
@@ -94,15 +95,47 @@ public class OrderBook implements IOrderBook {
         lock.readLock().lock();
 
         try {
-            return orderBook.get(symbol).stream().findFirst();
+            return Optional.ofNullable(orderBook.get(symbol).stream().findFirst().orElse(null));
         } finally {
             lock.readLock().unlock();
         }
     }
 
+public List<Order> getOrders(String stockSymbol) {
+        ReadWriteLock lock = getOrCreateLock(stockSymbol);
 
+        lock.readLock().lock();
+
+        try {
+            return orderBook.get(stockSymbol);
+        } finally {
+            lock.readLock().unlock();
+        }
+}
 
     private ReadWriteLock getOrCreateLock(String stockSymbol) {
         return symbolLocks.computeIfAbsent(stockSymbol,k -> new ReentrantReadWriteLock());
+    }
+
+    public Optional<Order> getOrderById(String id) {
+
+        for(Map.Entry<String, List<Order>> entry : orderBook.entrySet()) {
+            String stockSymbol = entry.getKey();
+            ReadWriteLock lock = getOrCreateLock(stockSymbol);
+            lock.readLock().lock();
+
+            try {
+                List<Order> orders = entry.getValue();
+                for(Order order : orders) {
+                    if(order.getOrderId().equals(id)) {
+                        return Optional.of(order);
+                    }
+                }
+            } finally {
+                lock.readLock().unlock();
+            }
+        }
+
+        return Optional.empty();
     }
 }
