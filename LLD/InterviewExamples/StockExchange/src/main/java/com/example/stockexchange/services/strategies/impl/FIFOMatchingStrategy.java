@@ -6,12 +6,14 @@ import com.example.stockexchange.models.OrderType;
 import com.example.stockexchange.models.Trade;
 import com.example.stockexchange.services.strategies.OrderMatchingStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Slf4j
+@Component
 public class FIFOMatchingStrategy implements OrderMatchingStrategy {
     @Override
     public String getStrategyName() {
@@ -59,6 +61,7 @@ public class FIFOMatchingStrategy implements OrderMatchingStrategy {
 
             Trade trade = Trade.builder().buyOrderId(buyOrder.getOrderId())
                     .sellOrderId(order.getOrderId())
+                    .stockSymbol(buyOrder.getStockSymbol())
                     .quantity(tradeQuantity)
                     .price(order.getPrice())
                     .build();
