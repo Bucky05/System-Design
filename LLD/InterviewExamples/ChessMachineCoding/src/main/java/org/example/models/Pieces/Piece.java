@@ -1,6 +1,7 @@
 package org.example.models.Pieces;
 
 import org.example.models.Board.Cell;
+import org.example.models.Board.ChessBoard;
 import org.example.models.Helpers.Color;
 import org.example.models.Helpers.Direction;
 import org.example.models.Pieces.Strategy.MovementStrategy;
@@ -15,12 +16,14 @@ public abstract class Piece {
     private final Color color;
     private List<Move> movesDone;
     protected List<MovementStrategy> movementStrategies;
+    private final String pieceSymbol;
 
-    public Piece(PieceName name, Color color) {
+    public Piece(PieceName name, Color color, String symbol) {
         this.pieceName = name;
         this.isKilled = false;
         this.color = color;
         movesDone = new ArrayList<>();
+        this.pieceSymbol = symbol;
     }
 
     public void setKilled(boolean killed) {
@@ -35,10 +38,31 @@ public abstract class Piece {
         return color;
     }
 
+    public PieceName getPieceName() {
+        return pieceName;
+    }
     public boolean isMovingForFirstTime() {
         return movesDone.isEmpty();
     }
 
+    public String getColorSymbol() {
+        return (this.getColor().equals(Color.BLACK)) ? "B" : "W";
+    }
+
+    public String getPieceSymbol() {
+        return this.pieceSymbol;
+    }
+
+    public void makeMove(Cell startingCell, Cell endingCell, ChessBoard board) {
+        ChessPiece piece = startingCell.getPiece().get();
+        startingCell.removePiece();
+
+        if(endingCell.getPiece().isPresent()) {
+            ChessPiece endingPiece = endingCell.getPiece().get();
+            endingPiece.setKilled(true);
+        }
+        endingCell.setPiece(piece);
+    }
     protected boolean isMovingDiagonally(Cell startingCell, Cell endingCell) {
         return Math.abs(startingCell.getX() - endingCell.getX()) > 0 && Math.abs(startingCell.getY() - endingCell.getY()) > 0;
     }
@@ -50,8 +74,8 @@ public abstract class Piece {
         return Math.abs(startingCell.getX() - endingCell.getX()) > 0 && Math.abs(startingCell.getY() - endingCell.getY()) == 0;
     }
 
-    protected boolean canMove(Cell start, Cell end) {
-        return movementStrategies.stream().anyMatch( strategy -> strategy.canMove(start, end));
+    protected boolean canMove(Cell start, Cell end, ChessBoard board) {
+        return movementStrategies.stream().anyMatch( strategy -> strategy.canMove(start, end, board));
     }
     protected Direction getDirection(Cell starting, Cell ending) {
         if(starting.getVerticalDistance(ending) == 0 && starting.getHorizontalDistance(ending) == 0) return Direction.NONE;

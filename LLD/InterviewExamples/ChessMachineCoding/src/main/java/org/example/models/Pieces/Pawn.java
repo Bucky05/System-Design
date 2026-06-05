@@ -2,30 +2,25 @@ package org.example.models.Pieces;
 
 import org.example.exceptions.InvalidPieceMoveException;
 import org.example.models.Board.Cell;
+import org.example.models.Board.ChessBoard;
 import org.example.models.Helpers.Color;
 import org.example.models.Helpers.Direction;
-import org.example.models.Pieces.Strategy.DiagonalMovement;
-import org.example.models.Pieces.Strategy.PawnVerticalMovement;
-import org.example.models.Pieces.Strategy.VerticalMovement;
+import org.example.models.Pieces.Strategy.PawnDiagonalMovementStrategy;
+import org.example.models.Pieces.Strategy.PawnVerticalMovementStrategy;
 
-import javax.naming.directory.DirContext;
 import java.util.Arrays;
 
 public class Pawn extends Piece implements ChessPiece {
 
 
-    public Pawn(PieceName name, Color color) {
+    public Pawn(PieceName name, Color color, String symbol) {
 
-        super(name,color);
-        this.movementStrategies = Arrays.asList(new PawnVerticalMovement(), new DiagonalMovement());
-    }
-    @Override
-    public void makeMove(Cell startingCell, Cell endingCell) {
-
+        super(name,color, symbol);
+        this.movementStrategies = Arrays.asList(new PawnVerticalMovementStrategy(this), new PawnDiagonalMovementStrategy());
     }
 
     @Override
-    public boolean canMove(Cell startingCell, Cell endingCell) {
+    public boolean canMove(Cell startingCell, Cell endingCell, ChessBoard board) {
         // 1. If first move then can move one step or two step
         // 2. If not first then can move one step
         // 3. if diagonally are opposite color then can move diagonally and kill piece
@@ -52,12 +47,8 @@ public class Pawn extends Piece implements ChessPiece {
         }
 
 
-        if(isMovingDiagonally(startingCell,endingCell) && endingCell.hasPiece() && endingCell.getPiece().get().getColor() != getColor()) {
-            if(getColor() == Color.WHITE) {
-                return endingCell.getY() - endingCell.getY() == 1 && startingCell.getHorizontalDistance(endingCell) == 1;
-            } else {
-                return endingCell.getY() - endingCell.getY() == -1 && startingCell.getHorizontalDistance(endingCell) == 1;
-            }
+        if(isMovingDiagonally(startingCell,endingCell) ) {
+            return  false;
         }
 
 
@@ -73,6 +64,7 @@ public class Pawn extends Piece implements ChessPiece {
     public void listPossibleMoves() {
 
     }
+
 
     private boolean isDirectionValidForPawn(Direction direction) {
         if(this.getColor() == Color.BLACK) {

@@ -1,14 +1,22 @@
 package org.example.models.Pieces;
 
-import org.example.models.Helpers.Pair;
+import org.example.models.Board.Cell;
 
 public class Move {
 
-    private Pair prevPosition;
-    private Pair currPosition;
+    private Cell prevPosition;
+    private Cell currPosition;
 
-    public Move(Pair prev, Pair curr) {
+    public Move(Cell prev, Cell curr) {
         this.prevPosition = prev;
         this.currPosition = curr;
+    }
+
+    public Cell getSource() {
+        return prevPosition;
+    }
+
+    public Cell getDestination() {
+        return currPosition;
     }
 }

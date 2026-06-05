@@ -12,7 +12,7 @@ public class Cell {
     private Optional<ChessPiece> piece;
     private final Pair position;
 
-    public Cell(int x, int y) {
+    public Cell(int x, char y) {
         this.position = new Pair(x,y);
         this.piece = Optional.empty();
     }
@@ -26,7 +26,7 @@ public class Cell {
     }
 
     public boolean hasPiece() {
-        piece.isPresent();
+        return piece.isPresent();
     }
     public void removePiece() {
         this.piece = Optional.empty();
@@ -40,7 +40,7 @@ public class Cell {
         return position.getX();
     }
 
-    public int getY() {
+    public char getY() {
         return position.getY();
     }
 
@@ -51,4 +51,6 @@ public class Cell {
     public int getHorizontalDistance(Cell cell) {
         return Math.abs(cell.getX() - position.getX());
     }
+
+
 }
